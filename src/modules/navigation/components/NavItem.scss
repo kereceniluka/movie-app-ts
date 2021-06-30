@@ -1,0 +1,7 @@
+.nav-item {
+    @apply font-bold text-black text-center mx-1 md:mx-5;
+}
+
+.nav-btn {
+    @apply bg-yellow-500 text-white rounded-lg py-3 px-16 text-center lg:py-3 px-4;
+}

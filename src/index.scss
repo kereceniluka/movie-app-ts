@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./assets/fonts/font-awesome/scss/fontawesome.scss";
+/* @import "./fontawesome/scss/solid.scss";
+@import "./fontawesome/scss/brands.scss"; */
+
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @extend .fa;
+}

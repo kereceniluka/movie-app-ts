@@ -1,0 +1,12 @@
+@use '../../../assets/fonts/font-awesome/scss/fontawesome.scss';
+
+@extend %fa-icon;
+@extend .fas;
+
+.checked {
+    @extend .fas .fa-check;
+}
+
+.unchecked {
+    @extend .fa .fa-plus;
+}

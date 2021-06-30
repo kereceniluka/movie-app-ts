@@ -1,10 +1,14 @@
-import './App.css';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import './App.scss';
+import HomePage from './modules/pages/HomePage';
 
 const App = () => {
   return (
-    <div className="App">
-      <h1>MovieApp</h1>
-    </div>
+    <Router>
+      <Switch>
+        <HomePage />
+      </Switch>
+    </Router>
   );
 }
 
