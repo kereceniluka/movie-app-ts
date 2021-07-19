@@ -1,6 +1,8 @@
 import { useEffect, useReducer, useRef } from 'react';
-import api from '@core/services/api';
 import { AxiosRequestConfig } from 'axios';
+
+// services
+import api from '@core/services/api';
 
 interface IState<T> {
     status: 'init' | 'fetching' | 'error' | 'fetched';

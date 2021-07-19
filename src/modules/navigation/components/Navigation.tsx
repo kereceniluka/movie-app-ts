@@ -22,22 +22,20 @@ const Navigation: FC<INavigation> = ({ logo }) => {
     }
 
     return (
-        <>
+        <header>
             <nav className="h-20 flex items-center justify-between bg-white px-6 shadow lg:px-24">
                 <NavLink to={ROUTES.DEFAULT}>
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt="logo" className="w-36 lg:w-40 xl:w-44" />
                 </NavLink>
-                <div className="hidden lg:block">
+                <div className="hidden md:block">
                     {navigationItems.map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
                 </div>
-                <div className="lg:hidden">
-                    <i className={`fas ${isClicked ? 'fa-times' : 'fa-bars'} fa-lg`} onClick={toggleMenu} />
-                </div>
+                <i className={`fas ${isClicked ? 'fa-times' : 'fa-bars'} fa-lg md:hidden`} onClick={toggleMenu} />
             </nav>
             <div className={`${isClicked ? 'block' : 'hidden'} h-80 flex flex-col items-center justify-center bg-gray-100`}>
                 {navigationItems.map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
             </div>
-        </>
+        </header>
     );
 }
 

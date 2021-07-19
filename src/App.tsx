@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import './App.scss';
 import HomePage from './modules/pages/HomePage';
 
 const App = () => {
