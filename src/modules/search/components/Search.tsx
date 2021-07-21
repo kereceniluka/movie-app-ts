@@ -1,9 +1,11 @@
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 
-// components
+// core
 import SearchInput from '@core/components/shared/SearchInput';
 import GridView from '@core/components/shared/GridView';
+
+// modules
 import Poster from '../../poster/components/Poster';
 
 // interfaces
@@ -12,7 +14,7 @@ import { IType } from '../interfaces/search.interface';
 // services
 import api from '@core/services/api';
 
-interface IMovie {
+class IMovie {
     poster_path: string|null;
     adult: boolean;
     overview: string;
@@ -29,7 +31,7 @@ interface IMovie {
     vote_average: number;
 }
 
-interface ITvShow {
+class ITvShow {
     poster_path: string|null;
     popularity: number;
     id: number;
@@ -45,22 +47,25 @@ interface ITvShow {
     original_name: string;
 }
 
-interface IPerson {
-    profile_path: string|null;
+class IPerson {
     adult: boolean;
+    gender: number;
     id: number;
-    known_for: (IMovie[]|ITvShow[]) & { media_type: string };
+    known_for: IMovie[]|ITvShow[];
+    known_for_department: string;
     name: string;
     popularity: number;
+    profile_path: string|null;
 }
 
-type IData = IMovie|ITvShow|IPerson;
+type MediaType = 'movie' | 'tv' | 'person';
 
 interface IResponse {
     page: number;
     results: IMovie[]|ITvShow[]|IPerson[];
     total_pages: number;
     total_results: number;
+    media_type: MediaType;
 }
 
 const Search: FC = () => {
@@ -69,7 +74,6 @@ const Search: FC = () => {
     const [type, setType] = useState<IType|null>(null);
 
     const fetchSearchedData = async (): Promise<IResponse|undefined> => {
-        if (!term || !type) return;
 
         const config = {
             params: {
@@ -77,25 +81,19 @@ const Search: FC = () => {
             },
         }
 
-        const { data } = await api.get(`/search/${type.value}`, config);
+        const { data } = await api.get(`/search/${type?.value}`, config);
 
-        return data;
+        return { ...data, media_type: type?.value };
     }
 
-    const { data, status } = useQuery(['searchedData', term, type], fetchSearchedData);
-
-    /* useEffect(() => {
-        const timer = setTimeout(() => , 500);
-
-        return () => clearTimeout(timer);
-    }, [term, type]); */
+    const { data, status } = useQuery(['searchedData', term, type], fetchSearchedData, { enabled: !!(term && type) });
 
     return (
-        <section className="flex flex-col items-center">
+        <section className="flex flex-col items-center px-6 lg:px-24">
             <SearchInput icon="fas fa-search" placeholder="Search..." term={term} setTerm={setTerm} type={type} setType={setType} />
-            {/* <GridView>
-                {status === 'success' && data?.results.map((result: IData) => <Poster key={result.id} img={result.poster_path||result.profile_path} />)}
-            </GridView> */}
+            <GridView>
+                {status === 'success' && data?.results.map((result: any) => <Poster key={result.id} img={result.poster_path || result.profile_path} mediaType={data.media_type} />)}
+            </GridView>
         </section>
     );
 }

@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+
+// modules
 import HomePage from './modules/pages/HomePage';
 
 const App = () => {

@@ -8,14 +8,16 @@ import Navigation from '../navigation/components/Navigation';
 import Carousel from '../carousel/components/Carousel';
 import Cta from '../cta/components/Cta';
 import Search from '../search/components/Search';
+import Footer from '../footer/components/Footer';
 
 const HomePage: FC = () => {
     return (
         <>
             <Navigation logo={logo} />
-            {/* <Carousel /> */}
-            {/* <Cta />
-            <Search /> */}
+            <Carousel />
+            <Cta />
+            {/* <Search /> */}
+            <Footer />
         </>
     );
 }

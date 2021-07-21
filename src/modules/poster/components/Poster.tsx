@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 // assets
 import noImagePlaceholder from '@assets/images/no-image-placeholder.svg';
 
@@ -8,13 +10,13 @@ import { IPoster } from '../interfaces/poster.interface';
 import Checkbox from '@core/components/shared/Checkbox';
 import TrailerButton from '@core/components/shared/TrailerButton';
 
-const Poster = (props: IPoster) => {
+const Poster: FC<IPoster> = ({ img, mediaType, title }) => {
     return (
-        <div className="relative flex flex-col items-center mt-7">
+        <article className="relative flex flex-col items-center mt-7">
             <Checkbox uncheckedIcon="fas fa-plus" checkedIcon="fas fa-check" />
-            <img className="w-48 h-72 rounded-lg object-cover overflow-hidden" src={props?.img ? `${process.env.REACT_APP_TMDB_IMAGES_URL}${props?.img}` : noImagePlaceholder} alt="poster-image" />
-            <TrailerButton icon="fas fa-play" label="Watch trailer" position="left" />
-        </div>
+            <img className="w-48 h-72 rounded-lg object-cover overflow-hidden" src={img ? `${process.env.REACT_APP_TMDB_IMAGES_URL}${img}` : noImagePlaceholder} alt="poster-image" />
+            {mediaType === 'movie' && <TrailerButton icon="fas fa-play" label="Watch trailer" position="left" title={title} />}
+        </article>
     );
 }
 

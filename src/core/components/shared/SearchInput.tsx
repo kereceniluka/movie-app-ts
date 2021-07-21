@@ -15,7 +15,7 @@ const options = [
 const SearchInput: FC<ISearchInput> = ({ icon, placeholder, term, setTerm, type, setType }) => {
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTerm(e.target.value);
+        setTerm(e.target.value)
     }
 
     return (

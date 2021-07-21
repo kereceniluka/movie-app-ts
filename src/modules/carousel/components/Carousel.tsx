@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import './Carousel.scss';
+import { useMediaQuery } from 'react-responsive';
 import Slider from 'react-slick';
 import { useQuery } from 'react-query';
 import axios from 'axios';
@@ -31,6 +32,9 @@ const Carousel: FC = () => {
 
     const { data, status, error } = useQuery<any>('trendingMovies', fetchTrendingMovies);
 
+    const isMediumScreen = useMediaQuery({ minWidth: 768 });
+    const isXLargeScreen = useMediaQuery({ minWidth: 1280 });
+
     const showMovieGenres = (genreIDs: number[]):string => {
         return data[1].data.genres
             .filter((genre: IMovieGenre) => genreIDs.includes(genre.id))
@@ -41,22 +45,22 @@ const Carousel: FC = () => {
     return (
         <Slider {...settings}>
             {status === 'success' && data[0].data.results.slice(0, 5).map((movie: ITrendingMovie) => (
-                <section key={movie.id} className="carousel-slide">
-                    <article className="absolute bottom-20% left-0 flex flex-wrap px-24 ">
-                        <h3 className="w-full text-white text-2xl font-bold">Top 5 movies</h3>
-                        <Poster img={movie?.poster_path} />
+                <section key={movie.id} className="carousel-slide h-60vh lg:h-full">
+                    <article className="absolute bottom-10% lg:bottom-20% left-0 flex flex-wrap lg:px-24">
+                        {isXLargeScreen && <h3 className="hidden lg:block w-full text-white text-2xl font-bold">Top 5 movies</h3>}
+                        {isXLargeScreen && <Poster img={movie?.poster_path} mediaType="movie" title={movie.title} />}
                         <div className="text-white flex flex-col justify-center mx-8">
                             <span className="text-xl pb-3">{movie.release_date.substring(0, 4)}</span>
-                            <h2 className="text-6xl font-bold pb-2">{movie.title}</h2>
-                            <span className="text-xl pb-5">{movie.genre_ids && showMovieGenres(movie.genre_ids)}</span>
-                            <p className="max-w-3xl text-xl text-gray-300 pb-6">{movie.overview}</p>
+                            <h2 className="text-3xl lg:text-6xl font-bold pb-2">{movie.title}</h2>
+                            <span className="text-base lg:text-xl pb-5">{movie.genre_ids && showMovieGenres(movie.genre_ids)}</span>
+                            {isMediumScreen && <p className="max-w-3xl text-xl text-gray-300 pb-6">{movie.overview}</p>}
                             <span>
-                                <i className="fas fa-star text-yellow-400 text-xl"></i>
-                                <span className="text-xl font-bold px-3">{movie.vote_average.toFixed(1)}</span>
+                                <i className="fas fa-star text-yellow-400 text-lg lg:text-xl"></i>
+                                <span className="text-lg lg:text-xl font-bold px-3">{movie.vote_average.toFixed(1)}</span>
                             </span>
                         </div>
                     </article>
-                    <img className="w-full h-80vh object-cover object-top" src={`${process.env.REACT_APP_TMDB_IMAGES_URL}${movie?.backdrop_path}`} alt="carousel-slide-bg" />
+                    <img className="w-full h-60vh lg:h-80vh object-cover object-top" src={`${process.env.REACT_APP_TMDB_IMAGES_URL}${movie?.backdrop_path}`} alt="carousel-slide-bg" />
                 </section>
             ))}
         </Slider>
