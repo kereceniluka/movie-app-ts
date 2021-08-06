@@ -3,13 +3,15 @@ import { FC, useState, MouseEventHandler } from 'react';
 interface ICheckbox {
     checkedIcon: string;
     uncheckedIcon: string;
+    onAddToWatchlist: () => void;
 }
 
-const Checkbox: FC<ICheckbox> = ({ checkedIcon, uncheckedIcon }) => {
+const Checkbox: FC<ICheckbox> = ({ checkedIcon, uncheckedIcon, onAddToWatchlist }) => {
 
     const [isClicked, setIsClicked] = useState<boolean>(false);
 
     const handleBtnClick: MouseEventHandler<HTMLDivElement> = () => {
+        onAddToWatchlist();
         setIsClicked(isClicked => !isClicked);
     }
 

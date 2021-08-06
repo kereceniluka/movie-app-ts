@@ -1,5 +1,7 @@
 import { FC, MouseEventHandler, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import './NavItem.scss';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 // enums
 import { ROUTES } from '../enums/routes.enum';
@@ -13,12 +15,21 @@ import { INavigation } from '../interfaces/navigation.interface';
 // components
 import NavItem from './NavItem';
 
+// services
+import { firebaseAuth } from '@core/services/firebase';
+
 const Navigation: FC<INavigation> = ({ logo }) => {
 
     const [isClicked, setIsClicked] = useState(false);
 
+    const [user] = useAuthState(firebaseAuth);
+
     const toggleMenu: MouseEventHandler<HTMLElement> = () => {
         setIsClicked(prevState => !prevState);
+    }
+
+    const logout: MouseEventHandler<HTMLElement> = () => {
+       firebaseAuth.signOut();
     }
 
     return (
@@ -28,12 +39,28 @@ const Navigation: FC<INavigation> = ({ logo }) => {
                     <img src={logo} alt="logo" className="w-36 lg:w-40 xl:w-44" />
                 </NavLink>
                 <div className="hidden md:block">
-                    {navigationItems.map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
+                    {!user ? 
+                        navigationItems.filter(navItem => !navItem.needAuth).map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />) : 
+                        (
+                            <>
+                                {navigationItems.filter(navItem => navItem.needAuth).map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
+                                <button className="nav-btn" onClick={logout}>Logout</button>
+                            </>
+                        )
+                    }
                 </div>
                 <i className={`fas ${isClicked ? 'fa-times' : 'fa-bars'} fa-lg md:hidden`} onClick={toggleMenu} />
             </nav>
             <div className={`${isClicked ? 'block' : 'hidden'} h-80 flex flex-col items-center justify-center bg-gray-100`}>
-                {navigationItems.map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
+                {!user ? 
+                    navigationItems.filter(navItem => !navItem.needAuth).map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />) : 
+                    (
+                        <>
+                            {navigationItems.filter(navItem => navItem.needAuth).map(({ id, path, label, isButton }) => <NavItem key={id} id={id} path={path} label={label} isButton={isButton} />)}
+                            <button className="nav-btn" onClick={logout}>Logout</button>
+                        </>
+                    )
+                }
             </div>
         </header>
     );

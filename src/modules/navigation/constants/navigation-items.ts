@@ -1,21 +1,25 @@
 import { ROUTES } from '../enums/routes.enum';
 
-// pages
-import HomePage from '../../pages/HomePage';
-
 export const navigationItems = [
     {
         id: 1,
         path: ROUTES.LOGIN,
         label: 'Log In',
-        //contentComponent: LoginPage,
         isButton: false,
+        needAuth: false,
     },
     {
         id: 2,
         path: ROUTES.REGISTER,
         label: 'Sign Up',
-        //contentComponent: RegisterPage,
         isButton: true,
+        needAuth: false,
+    },
+    {
+        id: 3,
+        path: ROUTES.PROFILE,
+        label: 'Profile',
+        isButton: false,
+        needAuth: true,
     },
 ];

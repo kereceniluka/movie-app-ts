@@ -1,4 +1,3 @@
-import { ComponentType } from 'react';
 import { ROUTES } from '../enums/routes.enum';
 
 export interface INavigationItem {
@@ -6,5 +5,5 @@ export interface INavigationItem {
     path: ROUTES;
     label?: string;
     isButton?: boolean;
-    //contentComponent: ComponentType<any>;
+    needAuth?: boolean;
 }
