@@ -3,7 +3,7 @@ import { ROUTES } from '../enums/routes.enum';
 export interface INavigationItem {
     id: number;
     path: ROUTES;
-    label?: string;
+    label: string | null;
     isButton?: boolean;
     needAuth?: boolean;
 }

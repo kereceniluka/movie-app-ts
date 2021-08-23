@@ -16,10 +16,10 @@ const HomePage: FC = () => {
             <Navigation logo={logo} />
             <Carousel />
             <Cta />
-            {/* <Search /> */}
+            <Search />
             <Footer />
         </>
     );
-}
+};
 
 export default HomePage;

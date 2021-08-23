@@ -9,6 +9,6 @@ const LoginPage: FC = () => {
             <LoginForm />
         </>
     );
-}
+};
 
 export default LoginPage;

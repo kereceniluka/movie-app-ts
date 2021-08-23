@@ -9,7 +9,7 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -18,4 +18,4 @@ const firebaseStorage = firebase.storage();
 const firebaseFirestore = firebase.firestore();
 const firebaseAuth = firebase.auth();
 
-export { firebaseStorage, firebaseFirestore, firebaseAuth };
+export { firebase, firebaseStorage, firebaseFirestore, firebaseAuth };

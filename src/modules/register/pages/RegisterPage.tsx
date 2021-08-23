@@ -9,6 +9,6 @@ const RegisterPage: FC = () => {
             <RegisterForm />
         </>
     );
-}
+};
 
 export default RegisterPage;

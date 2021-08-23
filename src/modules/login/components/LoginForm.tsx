@@ -21,7 +21,7 @@ import { firebaseAuth } from '@core/services/firebase';
 type FormData = {
     email: string;
     password: string;
-}
+};
 
 const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -29,12 +29,12 @@ const schema = yup.object().shape({
 });
 
 const LoginForm: FC = () => {
-
     const history = useHistory();
 
     const methods = useForm<FormData>({ resolver: yupResolver(schema) });
 
-    const [ signInWithEmailAndPassword, user, loading, error ] = useSignInWithEmailAndPassword(firebaseAuth);
+    const [signInWithEmailAndPassword, user, loading, error] =
+        useSignInWithEmailAndPassword(firebaseAuth);
 
     const onSubmit: SubmitHandler<any> = async ({ email, password }) => {
         try {
@@ -43,7 +43,7 @@ const LoginForm: FC = () => {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     console.log(user);
 
@@ -51,7 +51,9 @@ const LoginForm: FC = () => {
         <div className="h-screen flex flex-col justify-center items-center">
             <img className="mb-6" src={logo} alt="logo" />
             <FormWrapper methods={methods} onSubmit={onSubmit}>
-                {error && <p className="text-red-600 font-bold">{error?.message}</p>}
+                {error && (
+                    <p className="text-red-600 font-bold">{error?.message}</p>
+                )}
                 <InputWrapper flexDirection="flex-col">
                     <FormLabel htmlFor="email" label="Email address" />
                     <FormInput type="email" name="email" />
@@ -64,6 +66,6 @@ const LoginForm: FC = () => {
             </FormWrapper>
         </div>
     );
-}
+};
 
 export default LoginForm;

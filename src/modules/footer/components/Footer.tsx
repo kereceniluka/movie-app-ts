@@ -6,6 +6,6 @@ const Footer: FC = () => {
             <span>Copyright &copy; MovieApp</span>
         </footer>
     );
-}
+};
 
 export default Footer;
