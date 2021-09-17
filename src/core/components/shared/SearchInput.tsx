@@ -25,10 +25,10 @@ const SearchInput: FC<ISearchInput> = ({
     };
 
     return (
-        <div className="h-14 lg:h-16 lg:w-3/6 flex items-center justify-between bg-white rounded-lg shadow-2xl px-3">
+        <div className="h-14 lg:h-16 lg:w-3/6 flex items-center justify-between bg-white rounded-lg shadow-2xl pr-3 pl-6">
             <i className={`${icon} text-gray-300`}></i>
             <input
-                className="flex-1 h-full text-base font-bold text-gray-300 px-2"
+                className="flex-1 h-full text-base font-bold text-gray-300 px-2 outline-none"
                 type="text"
                 placeholder={placeholder}
                 onChange={e => onInputChange(e)}

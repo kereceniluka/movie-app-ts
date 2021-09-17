@@ -19,12 +19,12 @@ const SelectInput: FC<ISelectInput> = ({ options, type, setType }) => {
     /* w-36  */
 
     return (
-        <div className="relative border-l-2 py-1 pl-4">
+        <div className="relative border-l-2 py-1 px-4">
             <div
                 className="w-18 flex items-center cursor-pointer"
                 onClick={() => onIsOpen()}
             >
-                <span className="font-bold text-sm mx-1">
+                <span className="font-bold text-sm mr-3">
                     {type ? type.label : 'Type'}
                 </span>
                 <i
@@ -36,7 +36,7 @@ const SelectInput: FC<ISelectInput> = ({ options, type, setType }) => {
             <div
                 className={`${
                     isOpen ? 'block' : 'hidden'
-                } absolute w-full top-14 left-3 bg-white rounded-lg shadow-2xl cursor-pointer z-10`}
+                } absolute w-32 top-14 left-3 bg-white rounded-lg shadow-2xl cursor-pointer z-10`}
             >
                 <ul className="py-4">
                     {options.map(option => (

@@ -29,7 +29,7 @@ const Carousel: FC = () => {
         return res;
     };
 
-    const { data, status, error } = useQuery<any>(
+    const { data, isLoading } = useQuery<any>(
         'trendingMovies',
         fetchTrendingMovies
     );
@@ -46,7 +46,7 @@ const Carousel: FC = () => {
 
     return (
         <Slider {...settings}>
-            {status === 'success' &&
+            {!isLoading &&
                 data[0].data.results
                     .slice(0, 5)
                     .map((movie: ITrendingMovie) => (

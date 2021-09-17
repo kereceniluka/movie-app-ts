@@ -1,4 +1,5 @@
 import { FC, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from '@modules/auth/context/AuthContext';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
@@ -15,6 +16,8 @@ import Checkbox from '@core/components/shared/Checkbox';
 import { firebaseFirestore } from '@core/services/firebase';
 
 const Poster: FC<any> = ({ mediaType, isOnWatchlist, data }) => {
+    const history = useHistory();
+
     const user = useContext(AuthContext);
     const [value, loading, error] = useDocumentData(
         firebaseFirestore.doc(`users/${user?.uid}`),
@@ -107,8 +110,15 @@ const Poster: FC<any> = ({ mediaType, isOnWatchlist, data }) => {
         }
     };
 
+    const onTitleClick = (data: any) => {
+        history.push({
+            pathname: '/details',
+            state: data,
+        });
+    };
+
     return (
-        <article className="relative w-48 h-72 flex flex-col items-center mt-7">
+        <article className="relative w-48 h-72 flex flex-col items-center mt-7 rounded-lg overflow-hidden">
             {user && (
                 <Checkbox
                     uncheckedIcon="fas fa-plus"
@@ -118,7 +128,7 @@ const Poster: FC<any> = ({ mediaType, isOnWatchlist, data }) => {
                 />
             )}
             <img
-                className="rounded-lg object-cover overflow-hidden"
+                className="h-full object-cover overflow-hidden"
                 src={
                     data?.poster_path
                         ? `${process.env.REACT_APP_TMDB_IMAGES_URL}${data?.poster_path}`
@@ -126,6 +136,14 @@ const Poster: FC<any> = ({ mediaType, isOnWatchlist, data }) => {
                 }
                 alt="poster-image"
             />
+            <div
+                className="absolute flex items-center justify-center bottom-0 w-full bg-yellow-500 p-2 opacity-0 transition-opacity duration-300 hover:opacity-95 cursor-pointer"
+                onClick={() => onTitleClick(data)}
+            >
+                <p className="text-white text-center">
+                    {data?.title || data?.name}
+                </p>
+            </div>
         </article>
     );
 };
