@@ -9,6 +9,7 @@ import HomePage from './modules/pages/HomePage';
 import LoginPage from '@modules/login/pages/LoginPage';
 import RegisterPage from '@modules/register/pages/RegisterPage';
 import ProfilePage from '@modules/profile/pages/ProfilePage';
+import DetailsPage from '@modules/pages/DetailsPage';
 import PrivateRoute from '@modules/auth/components/PrivateRoute';
 
 const App: FC = () => {
@@ -19,6 +20,7 @@ const App: FC = () => {
                     <Route exact path={ROUTES.DEFAULT} component={HomePage} />
                     <Route path={ROUTES.LOGIN} component={LoginPage} />
                     <Route path={ROUTES.REGISTER} component={RegisterPage} />
+                    <Route path={ROUTES.DETAILS} component={DetailsPage} />
                     <PrivateRoute
                         path={ROUTES.PROFILE}
                         component={ProfilePage}

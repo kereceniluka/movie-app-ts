@@ -10,63 +10,10 @@ import Poster from '../../poster/components/Poster';
 
 // interfaces
 import { IType } from '../interfaces/search.interface';
+import { IResponse } from '@core/interfaces/response.interface';
 
 // services
 import api from '@core/services/api';
-
-class IMovie {
-    poster_path: string | null;
-    adult: boolean;
-    overview: string;
-    release_date: string;
-    genre_ids: number[];
-    id: number;
-    original_title: string;
-    original_language: string;
-    title: string;
-    backdrop_path: string | null;
-    popularity: number;
-    vote_count: number;
-    video: boolean;
-    vote_average: number;
-}
-
-class ITvShow {
-    poster_path: string | null;
-    popularity: number;
-    id: number;
-    backdrop_path: string | null;
-    vote_average: number;
-    overview: string;
-    first_air_date: string;
-    origin_country: string[];
-    genre_ids: number[];
-    original_language: string;
-    vote_count: number;
-    name: string;
-    original_name: string;
-}
-
-class IPerson {
-    adult: boolean;
-    gender: number;
-    id: number;
-    known_for: IMovie[] | ITvShow[];
-    known_for_department: string;
-    name: string;
-    popularity: number;
-    profile_path: string | null;
-}
-
-type MediaType = 'movie' | 'tv' | 'person';
-
-interface IResponse {
-    page: number;
-    results: IMovie[] | ITvShow[] | IPerson[];
-    total_pages: number;
-    total_results: number;
-    media_type: MediaType;
-}
 
 const Search: FC = () => {
     const [term, setTerm] = useState<string | null>(null);
@@ -84,10 +31,21 @@ const Search: FC = () => {
         return { ...data, media_type: type?.value };
     };
 
-    const { data, status } = useQuery(
+    const fetchPopularMovies = async (): Promise<IResponse | undefined> => {
+        const { data } = await api.get('/trending/movie/week');
+
+        return data;
+    };
+
+    const { data, isLoading } = useQuery(
         ['searchedData', term, type],
         fetchSearchedData,
         { enabled: !!(term && type) }
+    );
+
+    const { data: popularMovies, isLoading: isPopularMoviesLoading } = useQuery(
+        'popularMovies',
+        fetchPopularMovies
     );
 
     return (
@@ -101,14 +59,30 @@ const Search: FC = () => {
                 setType={setType}
             />
             <GridView>
-                {status === 'success' &&
-                    data?.results.map((result: any) => (
-                        <Poster
-                            key={result.id}
-                            data={result}
-                            mediaType={data.media_type}
-                        />
-                    ))}
+                {!isPopularMoviesLoading && !term ? (
+                    <>
+                        {popularMovies?.results
+                            .slice(0, 18)
+                            .map((movie: any) => (
+                                <Poster
+                                    key={movie.id}
+                                    data={movie}
+                                    mediaType={movie.media_type}
+                                />
+                            ))}
+                    </>
+                ) : (
+                    <>
+                        {!isLoading &&
+                            data?.results.map((result: any) => (
+                                <Poster
+                                    key={result.id}
+                                    data={result}
+                                    mediaType={data.media_type}
+                                />
+                            ))}
+                    </>
+                )}
             </GridView>
         </section>
     );

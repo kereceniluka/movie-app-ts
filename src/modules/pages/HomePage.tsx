@@ -12,13 +12,13 @@ import Footer from '../footer/components/Footer';
 
 const HomePage: FC = () => {
     return (
-        <>
+        <div className="overflow-hidden">
             <Navigation logo={logo} />
             <Carousel />
             <Cta />
             <Search />
             <Footer />
-        </>
+        </div>
     );
 };
 
